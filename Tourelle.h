@@ -4,7 +4,12 @@
 
 class Tourelle : public GameObject
 {
-private:
+protected:
+	int degats;
+	int prix;
+	float portee;
+	int exp;
+
 
 public:
 	Tourelle(float x, float y, float width, float height, sf::Color couleur); //constructeur
