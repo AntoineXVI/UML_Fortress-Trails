@@ -8,12 +8,19 @@ protected :
 	float yPosition;
 	float width;
 	float height;
+	float radius;
 
 	sf::Vector2f direction;
+	sf::CircleShape cShape;
 	sf::RectangleShape rShape;
 
 public:
-	GameObject(float x, float y, float weight, float height, sf::Color couleur);
+
+	GameObject(float x, float y, float width, float height, sf::Color couleur); //constructeur RectangleShape
+
+	GameObject(float x, float y, float radius, sf::Color couleur); //constructeur CircleShape
+
+	~GameObject();
 
 	void drawRect(sf::RenderWindow& window);
 

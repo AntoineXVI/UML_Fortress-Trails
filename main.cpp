@@ -1,11 +1,14 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "GameObject.h"
 
 
 int main(int argc, char** argv)
 {
     //création de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
+
+    GameObject Obj(100.f, 100.f, 20.f, 20.f, sf::Color::Red);
 
     float deltaTime = 0;
 
@@ -31,6 +34,7 @@ int main(int argc, char** argv)
         //DRAW
         window.clear();
 
+        Obj.drawRect(window);
         
 
         window.display();

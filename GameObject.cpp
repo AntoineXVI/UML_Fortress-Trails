@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 
-GameObject::GameObject(float x, float y, float width, float height, sf::Color couleur) //constructeur
+GameObject::GameObject(float x, float y, float width, float height, sf::Color couleur) //constructeur RectangleShape
 {
 	this->xPosition = x;
 	this->yPosition = y;
@@ -13,6 +13,20 @@ GameObject::GameObject(float x, float y, float width, float height, sf::Color co
 	rShape.setPosition(sf::Vector2f(xPosition, yPosition));
 	rShape.setSize(sf::Vector2f(width, height));
 	rShape.setFillColor(couleur);
+}
+
+GameObject::GameObject(float x, float y, float radius, sf::Color couleur) //constructeur CircleShape
+{
+	this->xPosition = x;
+	this->yPosition = y;
+	this->radius = radius;
+
+	cShape.setOrigin(0.5 * radius, 0.5 * radius);
+	cShape.setPosition(sf::Vector2f(xPosition, yPosition));
+	cShape.setRadius(radius);
+	cShape.setFillColor(couleur);
+	direction.x = 1;
+	direction.y = 0;
 }
 
 GameObject::~GameObject()//destructeur
