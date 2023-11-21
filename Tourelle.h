@@ -10,11 +10,9 @@ protected:
 	float portee;
 	int exp;
 
-
 public:
 	Tourelle(float x, float y, float width, float height, sf::Color couleur); //constructeur
 	~Tourelle();// Destructeur
 
 	void tirer();
 };
-

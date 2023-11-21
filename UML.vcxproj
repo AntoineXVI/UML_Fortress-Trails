@@ -130,12 +130,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Ennemi.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Munition.cpp" />
     <ClCompile Include="Tourelle.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Ennemi.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Munition.h" />
     <ClInclude Include="Tourelle.h" />

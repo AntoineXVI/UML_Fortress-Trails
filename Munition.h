@@ -16,4 +16,6 @@ public:
 	void setBallPosition(float fX, float fY);
 
 	void moveMunition(float time);
+
+	void setDirection(float y, float x);
 };
