@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "GameObject.h"
 
 class Base : public GameObject
@@ -14,6 +13,8 @@ public:
 	~Base();// Destructeur
 	
 	void takeDamage();
+
+	bool Isdead();
 };
 
 

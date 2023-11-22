@@ -15,3 +15,13 @@ void Base::takeDamage()
 {
 	vie -= 1;
 }
+
+bool Base::Isdead()
+{
+	if (vie == 0)
+	{
+		return true;
+	}
+	else 
+	return false;
+}

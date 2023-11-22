@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
@@ -24,11 +25,17 @@ public:
 
 	void drawRect(sf::RenderWindow& window);
 
+	void drawCircle(sf::RenderWindow& window);
+
+	void move(float time);
+
 	void setDirection(float y, float x);
 
 	sf::Vector2f getDirection();
 
 	sf::Vector2f getPosition();
+
+	sf::FloatRect getRectangleRect();
 
 	int OnCollisionEnter(sf::FloatRect shapeBall, sf::FloatRect shapeBrick);
 };
