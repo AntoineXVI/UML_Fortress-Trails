@@ -1,13 +1,11 @@
-#include "Munition.h"
-
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Munition.h"
 
-
 Munition::Munition(float x, float y, float radius, sf::Color couleur, float speed) : GameObject(x, y, radius, couleur) //Constructeur 
 {
-	this->speed = 1;
+	this->speed = speed;
 }
 
 Munition::~Munition()
@@ -25,12 +23,6 @@ sf::FloatRect Munition::getBallRect()
 	shapeRect.height = radius;
 
 	return shapeRect;
-}
-
-void Munition::setBallPosition(float fX, float fY)
-{
-	xPosition = fX;
-	yPosition = fY;
 }
 
 void Munition::moveMunition(float time)

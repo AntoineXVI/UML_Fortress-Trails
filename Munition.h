@@ -1,5 +1,4 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include "GameObject.h"
 
 class Munition : public GameObject
@@ -12,8 +11,6 @@ public:
 	~Munition(); //destructeur
 
 	sf::FloatRect getBallRect();
-
-	void setBallPosition(float fX, float fY);
 
 	void moveMunition(float time);
 };
