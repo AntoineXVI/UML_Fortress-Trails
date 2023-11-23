@@ -27,7 +27,6 @@ sf::FloatRect Munition::getBallRect()
 
 void Munition::moveMunition(float time)
 {
-	cShape.getPosition();
 	xPosition += speed * direction.x * time * 100.f;
 	yPosition += speed * direction.y * time * 100.f;
 
@@ -35,8 +34,8 @@ void Munition::moveMunition(float time)
 }
 
 bool Munition::isOutOfScreen() {
-	// Vérifiez si la munition est hors de l'écran en fonction de ses coordonnées
-	// Supposons que vous utilisez une fenêtre de taille 800x600
+	// Vï¿½rifiez si la munition est hors de l'ï¿½cran en fonction de ses coordonnï¿½es
+	// Supposons que vous utilisez une fenï¿½tre de taille 800x600
 	sf::Vector2f munitionPosition = { xPosition, yPosition };
 	float windowWidth = 800.0f;
 	float windowHeight = 600.0f;
@@ -45,8 +44,6 @@ bool Munition::isOutOfScreen() {
 	{
 		return true;
 	}
-	
-
 	else
 	{
 		return false;

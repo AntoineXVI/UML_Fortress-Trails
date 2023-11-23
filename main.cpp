@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
 #include "Base.h"
@@ -9,8 +10,20 @@
 
 int main(int argc, char** argv)
 {
+    std::srand(static_cast<unsigned int>(std::time(nullptr))); //pour la fonction random
+
     //cr�ation de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
+
+    //creation d'une police et d'un texte
+    sf::Font font;
+    font.loadFromFile("../SFML-2.6.1/Fonts/Arial.ttf");
+    sf::Text compteurArgent; 
+    compteurArgent.setFont(font); 
+    compteurArgent.setCharacterSize(50); 
+    compteurArgent.setFillColor(sf::Color::White); 
+
+    sf::Clock TimeSpawnEnnemis;
 
     //liste des ennemis
     std::vector <Ennemi> oEnnemis;
@@ -18,11 +31,9 @@ int main(int argc, char** argv)
     //liste des tourelles
     std::vector <Tourelle> oTourelles;
 
-    Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
-    oEnnemis.push_back(ennemi1);
 
-    Ennemi ennemi2(60.f, 300.f, 50.f, 50.f, sf::Color::Red, 15, 1);
-    oEnnemis.push_back(ennemi2);
+    //Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+    //oEnnemis.push_back(ennemi2);
 
     Tourelle tourelle1(200.f, 350.f, 50.f, 50.f, sf::Color::Green);
     oTourelles.push_back(tourelle1);
@@ -36,10 +47,108 @@ int main(int argc, char** argv)
     sf::Clock oClock;
     sf::Clock TimeShoot;
     float deltaTime = 0;
+    int ennemiCount = 0;
+    int rngSpawn = 0;
+    int min = 1;
+    int max = 2;
 
     //GameLoop
     while (window.isOpen())
     {
+
+        if (ennemiCount < 10) // vague 1
+        {
+            
+            // Vérifier si le temps de spawn est écoulé
+            if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 3.f)
+            {
+                Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                oEnnemis.push_back(ennemi1);
+
+                // Redémarrer le chronomètre après avoir fait spawn un ennemi
+                TimeSpawnEnnemis.restart();
+                ennemiCount += 1;
+            }
+            
+        }
+        else if (ennemiCount >= 10 && ennemiCount < 20) //vague 2
+        {
+            std::cout << "vague 1 terminé" << std::endl;
+            // Vérifier si le temps de spawn est écoulé
+            if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 2.f)
+            {
+                rngSpawn = rand() % (max - min + 1) + min;
+                if (rngSpawn == 2)
+                {
+                    Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
+                    oEnnemis.push_back(ennemi2);
+                }
+                else if (rngSpawn == 1)
+                {
+                    Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                    oEnnemis.push_back(ennemi1);
+                }
+                else if (rngSpawn == 0)
+                {
+                    std::cout << "oui";
+                }
+               
+
+                // Redémarrer le chronomètre après avoir fait spawn un ennemi
+                TimeSpawnEnnemis.restart();
+                ennemiCount += 1;
+            }
+        }
+        else if (ennemiCount >= 20 && ennemiCount < 35) //vague 3
+        {
+            std::cout << "vague 2 terminé" << std::endl;
+            int max = 3;
+
+            // Vérifier si le temps de spawn est écoulé
+            if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 2.f)
+            {
+                rngSpawn = rand() % (max - min + 1) + min;
+                if (rngSpawn == 3)
+                {
+                    Ennemi ennemi3(0.f, 300.f, 50.f, 50.f, sf::Color::Yellow , 15, 5);
+                    oEnnemis.push_back(ennemi3);
+                }
+                else if (rngSpawn == 2)
+                {
+                    Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
+                    oEnnemis.push_back(ennemi2);
+                }
+                else if (rngSpawn == 1)
+                {
+                    Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                    oEnnemis.push_back(ennemi1);
+                }
+                else if (rngSpawn == 0)
+                {
+                    std::cout << "oui";
+                }
+
+
+                // Redémarrer le chronomètre après avoir fait spawn un ennemi
+                TimeSpawnEnnemis.restart();
+                ennemiCount += 1;
+            }
+        }
+        else if ( ennemiCount == 35) //vague 4, boss
+        {
+            std::cout << "vague 3 terminé" << std::endl;
+            // Vérifier si le temps de spawn est écoulé
+            if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 8.f)
+            {
+                Ennemi boss(0.f, 300.f, 70.f, 70.f, sf::Color::Red, 50, 20);
+                oEnnemis.push_back(boss);
+                
+                // Redémarrer le chronomètre après avoir fait spawn un ennemi
+                TimeSpawnEnnemis.restart();
+                ennemiCount += 1;
+            }
+        }
+
         //EVENT
         sf::Event oEvent;
         while (window.pollEvent(oEvent))
@@ -48,12 +157,18 @@ int main(int argc, char** argv)
                 window.close();
             if (oEvent.type == sf::Event::MouseButtonReleased)
             {
+                if (oEvent.mouseButton.button == sf::Mouse::Left && (oBase.printArgent() >= 10))
+                {
+                    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+                    sf::Vector2f worldMousePosition = window.mapPixelToCoords(mousePosition);
 
+                    Tourelle tourelle2(worldMousePosition.x, worldMousePosition.y, 50.f, 50.f, sf::Color::Green);
+                    oTourelles.push_back(tourelle2);
+                    oBase.looseReward(10);
+                }
             }
         }
         // UPDATE
-
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
         for (int i = 0; i < oEnnemis.size(); i++)
         {
@@ -99,11 +214,21 @@ int main(int argc, char** argv)
                     munitionHitEnemy = true;
                     if (oEnnemis[j].isDead())
                     {
-                        oEnnemis.erase(oEnnemis.begin() + j);
-                        oBase.getReward();
+                        if (ennemiCount > 35)
+                        {
+                            std::cout << "Bravo, tu as gagné !";
+                            sf::sleep(sf::seconds(5));
+                            return 0;
+                        }
+                        else
+                        {
+                            oEnnemis.erase(oEnnemis.begin() + j);
+                            oBase.getReward();
+                        }
                     }
                 }
             }
+
 
             // Si la munition a touché un ennemi, ajoutez-la à la liste des munitions à supprimer
             if (munitionHitEnemy)
@@ -148,8 +273,22 @@ int main(int argc, char** argv)
             }
         }
 
+        //verification de la defaite -> si la base n'a plus de vie 
+        if (oBase.Isdead())
+        {
+            std::cout << "dommage, tu as perdu !";
+            sf::sleep(sf::seconds(5));
+            break;
+        }
 
-        
+
+        //mis a jour du compteur d'argent 
+        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent())); 
+
+        float offsetX = 10.0f;  // Marge à partir du X
+        float offsetY = 10.0f;  // Marge à partir du Y
+        compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - offsetX, offsetY);
+
 
 
         // DRAW
@@ -167,12 +306,12 @@ int main(int argc, char** argv)
             oMunitions[k].drawCircle(window);
         }
 
-        for (auto& tourelle : oTourelles)
+        for (int m = 0; m < oTourelles.size(); m++)
         {
-            tourelle.drawRect(window);
+            oTourelles[m].drawRect(window);
         }
 
-
+        window.draw(compteurArgent);
        
         window.display();
 

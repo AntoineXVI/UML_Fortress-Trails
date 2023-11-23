@@ -18,5 +18,7 @@ public:
 
 	void getReward();
 
+	void looseReward(int priceTower);
+
 	int printArgent();
 };
