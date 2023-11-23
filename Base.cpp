@@ -2,7 +2,7 @@
 
 Base::Base(float x, float y, float width, float height, sf::Color couleur) : GameObject(x, y, width, height, couleur) //Constructeur 
 {
-	argent = 1;
+	argent = 0;
 	vie = 10;
 }
 
@@ -22,6 +22,16 @@ bool Base::Isdead()
 	{
 		return true;
 	}
-	else 
-	return false;
+	else
+		return false;
+}
+
+void Base::getReward() //gain de pieces a chaque kills
+{
+	argent += 5;
+}
+
+int Base::printArgent()
+{
+	return argent;
 }

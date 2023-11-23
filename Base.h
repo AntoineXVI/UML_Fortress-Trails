@@ -11,12 +11,12 @@ private:
 public:
 	Base(float x, float y, float width, float height, sf::Color couleur); //constructeur
 	~Base();// Destructeur
-	
+
 	void takeDamage();
 
 	bool Isdead();
+
+	void getReward();
+
+	int printArgent();
 };
-
-
-
-
