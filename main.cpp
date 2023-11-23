@@ -12,6 +12,15 @@ int main(int argc, char** argv)
     //cr�ation de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
 
+    //creation d'une police et d'un texte
+    sf::Font font;
+    font.loadFromFile("../SFML-2.6.1/Fonts/Arial.ttf");
+    sf::Text compteurArgent; 
+    compteurArgent.setFont(font); 
+    compteurArgent.setCharacterSize(50); 
+    compteurArgent.setFillColor(sf::Color::White); 
+
+
     //liste des ennemis
     std::vector <Ennemi> oEnnemis;
 
@@ -149,7 +158,14 @@ int main(int argc, char** argv)
         }
 
 
-        
+
+        //mis a jour du compteur d'argent 
+        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent())); 
+
+        float offsetX = 10.0f;  // Marge à partir du X
+        float offsetY = 10.0f;  // Marge à partir du Y
+        compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - offsetX, offsetY);
+
 
 
         // DRAW
@@ -172,7 +188,7 @@ int main(int argc, char** argv)
             tourelle.drawRect(window);
         }
 
-
+        window.draw(compteurArgent);
        
         window.display();
 
