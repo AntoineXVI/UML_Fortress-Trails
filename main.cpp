@@ -9,7 +9,7 @@
 
 int main(int argc, char** argv)
 {
-    //cr�ation de la fenetre
+    //cr�ation de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
 
     //liste des ennemis
@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     //creation de la base a defendre
     Base oBase(750.f, 300.f, 100.f, 100.f, sf::Color::Cyan);
 
-    //liste des munitions tir�s
+    //liste des munitions tir�s
     std::vector <Munition> oMunitions;
 
     sf::Clock oClock;
@@ -60,113 +60,64 @@ int main(int argc, char** argv)
             oEnnemis[i].setDirection(0.f, oBase.getPosition().x);
             oEnnemis[i].move(deltaTime);
 
-            for (int j = 0; j < oTourelles.size(); j++)
+            // Vérifier si le temps de tir est écoulé
+            if (TimeShoot.getElapsedTime().asSeconds() > 0.5f)
             {
-                oTourelles[j].setDirection(oEnnemis[i].getPosition().y - oTourelles[j].getPosition().y, oEnnemis[i].getPosition().x - oTourelles[j].getPosition().x);
-
-                if (TimeShoot.getElapsedTime().asSeconds() > 0.5f)
+                // Boucle à travers toutes les tourelles
+                for (int j = 0; j < oTourelles.size(); j++)
                 {
+                    oTourelles[j].setDirection(oEnnemis[i].getPosition().y - oTourelles[j].getPosition().y, oEnnemis[i].getPosition().x - oTourelles[j].getPosition().x);
+
+                    // Tirer une munition pour chaque tourelle
                     Munition oMunition1((oTourelles[j].getPosition().x), (oTourelles[j].getPosition().y), 10.f, sf::Color::Blue, 10.f);
                     oMunition1.setDirection(oTourelles[j].getDirection().y, oTourelles[j].getDirection().x);
                     oMunitions.push_back(oMunition1);
-
-                    TimeShoot.restart().asSeconds();
                 }
+
+                // Redémarrer le chronomètre après avoir tiré
+                TimeShoot.restart();
             }
         }
-        /*
 
-        //liste des ennemis a jour
-        std::vector <Ennemi> oEnnemis_update;
 
-        for (int l = 0; l < oEnnemis.size(); l++)
-        {
-            oEnnemis_update.push_back(oEnnemis[l]);
-        }
+        // Liste des munitions à supprimer
+        std::vector<int> munitionsToRemove;
 
-        //liste des munitions a jour
-        std::vector <Munition> oMunitions_update;
-
+        // Suppression des ennemis touchés
         for (int k = 0; k < oMunitions.size(); k++)
         {
-            oMunitions_update.push_back(oMunitions[k]);
-        }
+            oMunitions[k].moveMunition(deltaTime);
 
+            // Variable pour indiquer si la munition a touché un ennemi
+            bool munitionHitEnemy = false;
 
-        for (int k = 0; k < oMunitions_update.size(); k++)
-        {
-            for (int l = 0; l < oEnnemis_update.size(); l++)
+            for (int j = 0; j < oEnnemis.size(); j++)
             {
-                if (oMunitions_update[k].OnCollisionEnter(oMunitions_update[k].getBallRect(), oEnnemis_update[l].getRectangleRect()))
+                if (oMunitions[k].OnCollisionEnter(oMunitions[k].getBallRect(), oEnnemis[j].getRectangleRect()))
                 {
-                    oEnnemis_update[l].takeDamage();
-                    oMunitions.erase(oMunitions_update.begin() + k);
+                    oEnnemis[j].takeDamage();
+                    munitionHitEnemy = true;
+                    if (oEnnemis[j].isDead())
+                    {
+                        oEnnemis.erase(oEnnemis.begin() + j);
+                        oBase.getReward();
+                    }
                 }
-                
+            }
 
-                if (oEnnemis_update[l].OnCollisionEnter(oEnnemis_update[l].getRectangleRect(), oBase.getRectangleRect()))
-                {
-                    oBase.takeDamage();
-                    oEnnemis.erase(oEnnemis_update.begin() + l);
-                }
-                if (oEnnemis_update[l].isDead())
-                {
-                    oEnnemis.erase(oEnnemis_update.begin() + l);
-                }
+            // Si la munition a touché un ennemi, ajoutez-la à la liste des munitions à supprimer
+            if (munitionHitEnemy)
+            {
+                munitionsToRemove.push_back(k);
             }
         }
 
-        for (int k = 0; k < oMunitions_update.size(); k++)
+        // Supprime les munitions de la liste principale après avoir terminé la boucle
+        for (int i : munitionsToRemove) 
         {
-            oMunitions_update[k].moveMunition(deltaTime);
+            oMunitions.erase(oMunitions.begin() + i); 
         }
 
-
-        //DRAW
-        window.clear();
-
-        for (int i = 0; i < oEnnemis_update.size(); i++)
-        {
-            oEnnemis_update[i].drawRect(window);
-        }
-
-        oBase.drawRect(window);
-
-        for (int i = 0; i < oMunitions_update.size(); i++)
-        {
-            oMunitions_update[i].drawCircle(window);
-        }
-
-        for (int i = 0; i < oTourelles.size(); i++)
-        {
-            oTourelles[i].drawRect(window);
-        }
-
-        window.display();
-
-        deltaTime = oClock.restart().asSeconds();
-        */
-
-
-        // Suppression des ennemis touch�s
-        for (auto itMunition = oMunitions.begin(); itMunition != oMunitions.end();)
-        {
-            itMunition->moveMunition(deltaTime);
-
-            for (auto itEnnemi = oEnnemis.begin(); itEnnemi != oEnnemis.end();)
-            {
-                if (itMunition->OnCollisionEnter(itMunition->getBallRect(), itEnnemi->getRectangleRect()))
-                {
-                    itEnnemi->takeDamage();
-                    itEnnemi = oEnnemis.erase(itEnnemi);
-                    itMunition = oMunitions.erase(itMunition);
-                }
-                else
-                {
-                    ++itEnnemi;
-                }
-            }
-        }
 
         // Suppression des ennemis touchant la base
         for (auto itEnnemi = oEnnemis.begin(); itEnnemi != oEnnemis.end();)
@@ -182,43 +133,50 @@ int main(int argc, char** argv)
             }
         }
 
+        for (int k = 0; k < oMunitions.size(); k++)
+        {
+            oMunitions[k].moveMunition(deltaTime);
+        }
+
+
+        // Suppression des munitions hors de l'�cran
+        for (int k = 0; k < oMunitions.size(); k++)
+        {
+            if (oMunitions[k].isOutOfScreen())
+            {
+                oMunitions.erase(oMunitions.begin() + k);
+            }
+        }
+
+
         
-        // Suppression des munitions hors de l'�cran
-        oMunitions.erase(
-            std::remove_if(oMunitions.begin(), oMunitions.end(),
-                []( Munition& munition) {
-                    return munition.isOutOfScreen();
-                }),
-            oMunitions.end());
 
 
-            
         // DRAW
         window.clear();
 
-        for ( auto& ennemi : oEnnemis)
+        for(int l = 0; l < oEnnemis.size(); l++) 
         {
-            ennemi.drawRect(window);
+            oEnnemis[l].drawRect(window); 
         }
 
         oBase.drawRect(window);
 
-        for ( auto& munition : oMunitions)
+        for (int k = 0; k < oMunitions.size(); k++)
         {
-            munition.drawCircle(window);
+            oMunitions[k].drawCircle(window);
         }
 
-        for ( auto& tourelle : oTourelles)
+        for (auto& tourelle : oTourelles)
         {
             tourelle.drawRect(window);
         }
 
+
+       
         window.display();
 
         deltaTime = oClock.restart().asSeconds();
-
-
-
 
     }
 
