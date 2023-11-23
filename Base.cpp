@@ -31,6 +31,11 @@ void Base::getReward() //gain de pieces a chaque kills
 	argent += 5;
 }
 
+void Base::looseReward(int priceTower) //perte de piece a l'achat d'une tour
+{
+	argent -= priceTower;
+}
+
 int Base::printArgent()
 {
 	return argent;
