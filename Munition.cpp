@@ -33,3 +33,22 @@ void Munition::moveMunition(float time)
 
 	cShape.setPosition(sf::Vector2f(xPosition, yPosition));
 }
+
+bool Munition::isOutOfScreen() {
+	// Vérifiez si la munition est hors de l'écran en fonction de ses coordonnées
+	// Supposons que vous utilisez une fenêtre de taille 800x600
+	sf::Vector2f munitionPosition = { xPosition, yPosition };
+	float windowWidth = 800.0f;
+	float windowHeight = 600.0f;
+
+	if (xPosition > windowWidth || yPosition > windowHeight)
+	{
+		return true;
+	}
+	
+
+	else
+	{
+		return false;
+	}
+}

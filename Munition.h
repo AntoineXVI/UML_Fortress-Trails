@@ -13,4 +13,6 @@ public:
 	sf::FloatRect getBallRect();
 
 	void moveMunition(float time);
+
+	bool isOutOfScreen() ;
 };
