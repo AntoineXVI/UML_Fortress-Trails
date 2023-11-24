@@ -3,7 +3,7 @@
 Base::Base(float x, float y, float width, float height, sf::Color couleur) : GameObject(x, y, width, height, couleur) //Constructeur 
 {
 	argent = 0;
-	vie = 10;
+	vie = 25;
 }
 
 Base::~Base()

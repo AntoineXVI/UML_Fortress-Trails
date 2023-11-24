@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Munition.h"
+#include "Tourelle.h"
 
 Munition::Munition(float x, float y, float radius, sf::Color couleur, float speed) : GameObject(x, y, radius, couleur) //Constructeur 
 {

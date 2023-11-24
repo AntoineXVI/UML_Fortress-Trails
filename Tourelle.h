@@ -14,4 +14,8 @@ public:
 	~Tourelle();// Destructeur
 
 	void tirer();
+
+	void getExp();
+
+	int printExp();
 };

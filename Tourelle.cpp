@@ -1,6 +1,6 @@
 #include "Tourelle.h"
 
-Tourelle::Tourelle(float x, float y, float width, float height, sf::Color couleur) : GameObject(x, y, width, height, couleur) //Constructeur 
+Tourelle::Tourelle(float x, float y, float width, float height, sf::Color couleur ) : GameObject(x, y, width, height, couleur) //Constructeur 
 {
 	i_exp = 0;
 	i_prix = 10;
@@ -16,4 +16,14 @@ Tourelle::~Tourelle()
 void Tourelle::tirer()
 {
 
+}
+
+void Tourelle::getExp()
+{
+	i_exp += 10;
+}
+
+int Tourelle::printExp()
+{
+	return i_exp;
 }

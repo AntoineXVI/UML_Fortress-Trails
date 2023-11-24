@@ -19,10 +19,10 @@ int main(int argc, char** argv)
     sf::Font font;
     font.loadFromFile("SFML-2.6.1/Fonts/Arial.ttf");
 
-    sf::Text compteurArgent; 
+    sf::Text compteurArgent;
     compteurArgent.setFont(font); //texte compteur argent
-    compteurArgent.setCharacterSize(50); 
-    compteurArgent.setFillColor(sf::Color::White); 
+    compteurArgent.setCharacterSize(50);
+    compteurArgent.setFillColor(sf::Color::White);
 
     sf::Text compteurPv;
     compteurPv.setFont(font); //texte compteur pv
@@ -108,7 +108,7 @@ int main(int argc, char** argv)
                 {
                     Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                     oEnnemis.push_back(ennemi1);
-                }              
+                }
 
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
                 TimeSpawnEnnemis.restart();
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
                 rngSpawn = rand() % (max - min + 1) + min;
                 if (rngSpawn == 3)
                 {
-                    Ennemi ennemi3(0.f, 300.f, 50.f, 50.f, sf::Color::Yellow , 15, 5);
+                    Ennemi ennemi3(0.f, 300.f, 50.f, 50.f, sf::Color::Yellow, 15, 5);
                     oEnnemis.push_back(ennemi3);
                 }
                 else if (rngSpawn == 2)
@@ -145,7 +145,7 @@ int main(int argc, char** argv)
                 ennemiCount += 1;
             }
         }
-        else if ( ennemiCount == 35) //vague 4, boss
+        else if (ennemiCount == 35) //vague 4, boss
         {
             countVague = 4;
             // Vérifier si le temps de spawn est écoulé
@@ -153,7 +153,7 @@ int main(int argc, char** argv)
             {
                 Ennemi boss(0.f, 300.f, 70.f, 70.f, sf::Color::Red, 50, 20);
                 oEnnemis.push_back(boss);
-                
+
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
                 TimeSpawnEnnemis.restart();
                 ennemiCount += 1;
@@ -228,7 +228,7 @@ int main(int argc, char** argv)
                         {
                             window.clear();
 
-                            texteWin.setString("Bravo, tu as gagné !" );
+                            texteWin.setString("Bravo, tu as gagné !");
                             texteWin.setPosition(400.0f, 300.0f);
 
                             window.draw(texteWin);
@@ -254,9 +254,9 @@ int main(int argc, char** argv)
         }
 
         // Supprime les munitions de la liste principale après avoir terminé la boucle
-        for (int i : munitionsToRemove) 
+        for (int i : munitionsToRemove)
         {
-            oMunitions.erase(oMunitions.begin() + i); 
+            oMunitions.erase(oMunitions.begin() + i);
         }
 
 
@@ -297,7 +297,7 @@ int main(int argc, char** argv)
 
 
         //mis a jour du compteur d'argent 
-        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent())); 
+        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent()));
 
         float argOffsetX = 10.0f;  // Marge à partir du X
         compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - argOffsetX, 0);
@@ -317,9 +317,9 @@ int main(int argc, char** argv)
         // DRAW
         window.clear();
 
-        for(int l = 0; l < oEnnemis.size(); l++) 
+        for (int l = 0; l < oEnnemis.size(); l++)
         {
-            oEnnemis[l].drawRect(window); 
+            oEnnemis[l].drawRect(window);
         }
 
         oBase.drawRect(window);
@@ -337,7 +337,7 @@ int main(int argc, char** argv)
         window.draw(compteurArgent);
         window.draw(compteurPv);
         window.draw(compteurVague);
-       
+
         window.display();
 
         deltaTime = oClock.restart().asSeconds();

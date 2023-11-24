@@ -7,7 +7,6 @@ private:
 	int vie;
 	int degats;
 
-
 public:
 	Ennemi(float x, float y, float width, float height, sf::Color couleur, int vie, int degat); //constructeur
 	~Ennemi();// Destructeur
