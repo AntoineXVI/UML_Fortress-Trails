@@ -11,14 +11,14 @@ Base::~Base()
 
 }
 
-void Base::takeDamage()
+void Base::takeDamage(int degatEnnemi)
 {
-	vie -= 1;
+	vie -= degatEnnemi;
 }
 
 bool Base::Isdead()
 {
-	if (vie == 0)
+	if (vie <= 0)
 	{
 		return true;
 	}
@@ -39,4 +39,9 @@ void Base::looseReward(int priceTower) //perte de piece a l'achat d'une tour
 int Base::printArgent()
 {
 	return argent;
+}
+
+int Base::printPv()
+{
+	return vie;
 }

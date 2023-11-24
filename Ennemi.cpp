@@ -60,3 +60,8 @@ void Ennemi::drawRect(sf::RenderWindow& window)
 {
 	window.draw(rShape);
 }
+
+int Ennemi::printDegat()
+{
+	return degats;
+}

@@ -23,4 +23,6 @@ public:
 	void setDirection(float y, float x);
 
 	void drawRect(sf::RenderWindow& window);
+
+	int printDegat();
 };

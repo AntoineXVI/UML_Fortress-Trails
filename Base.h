@@ -12,7 +12,7 @@ public:
 	Base(float x, float y, float width, float height, sf::Color couleur); //constructeur
 	~Base();// Destructeur
 
-	void takeDamage();
+	void takeDamage(int degatEnnemi);
 
 	bool Isdead();
 
@@ -21,4 +21,6 @@ public:
 	void looseReward(int priceTower);
 
 	int printArgent();
+
+	int printPv();
 };

@@ -17,11 +17,34 @@ int main(int argc, char** argv)
 
     //creation d'une police et d'un texte
     sf::Font font;
-    font.loadFromFile("../SFML-2.6.1/Fonts/Arial.ttf");
+    font.loadFromFile("SFML-2.6.1/Fonts/Arial.ttf");
+
     sf::Text compteurArgent; 
-    compteurArgent.setFont(font); 
+    compteurArgent.setFont(font); //texte compteur argent
     compteurArgent.setCharacterSize(50); 
     compteurArgent.setFillColor(sf::Color::White); 
+
+    sf::Text compteurPv;
+    compteurPv.setFont(font); //texte compteur pv
+    compteurPv.setCharacterSize(30);
+    compteurPv.setFillColor(sf::Color::White);
+
+    sf::Text compteurVague;
+    compteurVague.setFont(font); //texte compteur vague
+    compteurVague.setCharacterSize(30);
+    compteurVague.setFillColor(sf::Color::White);
+
+    sf::Text texteWin;
+    texteWin.setFont(font); //texte win
+    texteWin.setCharacterSize(50);
+    texteWin.setFillColor(sf::Color::White);
+
+    sf::Text texteLoose;
+    texteLoose.setFont(font); //texte loose
+    texteLoose.setCharacterSize(50);
+    texteLoose.setFillColor(sf::Color::White);
+
+
 
     sf::Clock TimeSpawnEnnemis;
 
@@ -51,14 +74,13 @@ int main(int argc, char** argv)
     int rngSpawn = 0;
     int min = 1;
     int max = 2;
+    int countVague = 1;
 
     //GameLoop
     while (window.isOpen())
     {
-
         if (ennemiCount < 10) // vague 1
         {
-            
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 3.f)
             {
@@ -69,11 +91,10 @@ int main(int argc, char** argv)
                 TimeSpawnEnnemis.restart();
                 ennemiCount += 1;
             }
-            
         }
         else if (ennemiCount >= 10 && ennemiCount < 20) //vague 2
         {
-            std::cout << "vague 1 terminé" << std::endl;
+            countVague = 2;
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 2.f)
             {
@@ -87,12 +108,7 @@ int main(int argc, char** argv)
                 {
                     Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                     oEnnemis.push_back(ennemi1);
-                }
-                else if (rngSpawn == 0)
-                {
-                    std::cout << "oui";
-                }
-               
+                }              
 
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
                 TimeSpawnEnnemis.restart();
@@ -101,8 +117,8 @@ int main(int argc, char** argv)
         }
         else if (ennemiCount >= 20 && ennemiCount < 35) //vague 3
         {
-            std::cout << "vague 2 terminé" << std::endl;
             int max = 3;
+            countVague = 3;
 
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 2.f)
@@ -123,11 +139,6 @@ int main(int argc, char** argv)
                     Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                     oEnnemis.push_back(ennemi1);
                 }
-                else if (rngSpawn == 0)
-                {
-                    std::cout << "oui";
-                }
-
 
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
                 TimeSpawnEnnemis.restart();
@@ -136,7 +147,7 @@ int main(int argc, char** argv)
         }
         else if ( ennemiCount == 35) //vague 4, boss
         {
-            std::cout << "vague 3 terminé" << std::endl;
+            countVague = 4;
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 8.f)
             {
@@ -194,7 +205,6 @@ int main(int argc, char** argv)
             }
         }
 
-
         // Liste des munitions à supprimer
         std::vector<int> munitionsToRemove;
 
@@ -216,7 +226,13 @@ int main(int argc, char** argv)
                     {
                         if (ennemiCount > 35)
                         {
-                            std::cout << "Bravo, tu as gagné !";
+                            window.clear();
+
+                            texteWin.setString("Bravo, tu as gagné !" );
+                            texteWin.setPosition(400.0f, 300.0f);
+
+                            window.draw(texteWin);
+
                             sf::sleep(sf::seconds(5));
                             return 0;
                         }
@@ -249,7 +265,7 @@ int main(int argc, char** argv)
         {
             if (itEnnemi->OnCollisionEnter(itEnnemi->getRectangleRect(), oBase.getRectangleRect()))
             {
-                oBase.takeDamage();
+                oBase.takeDamage(itEnnemi->printDegat());
                 itEnnemi = oEnnemis.erase(itEnnemi);
             }
             else
@@ -276,8 +292,6 @@ int main(int argc, char** argv)
         //verification de la defaite -> si la base n'a plus de vie 
         if (oBase.Isdead())
         {
-            std::cout << "dommage, tu as perdu !";
-            sf::sleep(sf::seconds(5));
             break;
         }
 
@@ -285,11 +299,20 @@ int main(int argc, char** argv)
         //mis a jour du compteur d'argent 
         compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent())); 
 
-        float offsetX = 10.0f;  // Marge à partir du X
-        float offsetY = 10.0f;  // Marge à partir du Y
-        compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - offsetX, offsetY);
+        float argOffsetX = 10.0f;  // Marge à partir du X
+        compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - argOffsetX, 0);
 
 
+        //mis a jour du compteur de PV
+        compteurPv.setString("PV : " + std::to_string(oBase.printPv()));
+
+        float pvOffsetX = 50.0f;  // Marge à partir du X
+        float pvOffsetY = 45.0f;  // Marge à partir du Y
+        compteurPv.setPosition(oBase.getPosition().x - pvOffsetX, oBase.getPosition().y + pvOffsetY);
+
+        //mis a jour du compteur de vague 
+        compteurVague.setString("Vague : " + std::to_string(countVague));
+        compteurVague.setPosition(0, 0);
 
         // DRAW
         window.clear();
@@ -312,12 +335,23 @@ int main(int argc, char** argv)
         }
 
         window.draw(compteurArgent);
+        window.draw(compteurPv);
+        window.draw(compteurVague);
        
         window.display();
 
         deltaTime = oClock.restart().asSeconds();
 
     }
+
+    window.clear();
+
+    texteLoose.setString("dommage, tu as perdu !");
+    texteLoose.setPosition(400.0f, 300.0f);
+
+    window.draw(texteLoose);
+
+    sf::sleep(sf::seconds(5));
 
     return 0;
 }
