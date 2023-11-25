@@ -2,10 +2,13 @@
 #include <cstdlib>
 #include <SFML/Graphics.hpp>
 #include "GameObject.h"
+#include <SFML/Graphics/Image.hpp>
 #include "Base.h"
 #include "Ennemi.h"
 #include "Munition.h"
 #include "Tourelle.h"
+#include "ImageManager.h"
+#include "TextManager.h"
 
 
 int main(int argc, char** argv)
@@ -15,36 +18,8 @@ int main(int argc, char** argv)
     //cr�ation de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
 
-    //creation d'une police et d'un texte
-    sf::Font font;
-    font.loadFromFile("SFML-2.6.1/Fonts/Arial.ttf");
-
-    sf::Text compteurArgent;
-    compteurArgent.setFont(font); //texte compteur argent
-    compteurArgent.setCharacterSize(50);
-    compteurArgent.setFillColor(sf::Color::White);
-
-    sf::Text compteurPv;
-    compteurPv.setFont(font); //texte compteur pv
-    compteurPv.setCharacterSize(30);
-    compteurPv.setFillColor(sf::Color::White);
-
-    sf::Text compteurVague;
-    compteurVague.setFont(font); //texte compteur vague
-    compteurVague.setCharacterSize(30);
-    compteurVague.setFillColor(sf::Color::White);
-
-    sf::Text texteWin;
-    texteWin.setFont(font); //texte win
-    texteWin.setCharacterSize(50);
-    texteWin.setFillColor(sf::Color::White);
-
-    sf::Text texteLoose;
-    texteLoose.setFont(font); //texte loose
-    texteLoose.setCharacterSize(50);
-    texteLoose.setFillColor(sf::Color::White);
-
-
+    //création d'une image de fond
+    ImageManager iBackground("IMG/Background.png");
 
     sf::Clock TimeSpawnEnnemis;
 
@@ -53,10 +28,6 @@ int main(int argc, char** argv)
 
     //liste des tourelles
     std::vector <Tourelle> oTourelles;
-
-
-    //Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
-    //oEnnemis.push_back(ennemi2);
 
     Tourelle tourelle1(200.f, 350.f, 50.f, 50.f, sf::Color::Green);
     oTourelles.push_back(tourelle1);
@@ -75,6 +46,18 @@ int main(int argc, char** argv)
     int min = 1;
     int max = 2;
     int countVague = 1;
+
+    //création des textes
+    TextManager compteurArgent(0.f, 0.f, 50, "Argent : 0"); 
+    compteurArgent.setPosition(window.getSize().x - compteurArgent.getRect().width - 10.0f, 0.f); //changer son X par rapport a sa taille pour qu'il rentre dans l'ecran
+    
+    TextManager compteurPv(oBase.getPosition().x - 50.0f, oBase.getPosition().y + 45.0f, 30, "PV : 0"); 
+
+    TextManager compteurVague(0.f , 0.f, 30, "Vague : 0" );
+
+    TextManager texteWin(400.0f, 300.0f, 50, "Bravo, tu as gagné !");
+
+    TextManager texteLoose(400.0f, 300.0f, 50, "dommage, tu as perdu !");
 
     //GameLoop
     while (window.isOpen())
@@ -180,6 +163,12 @@ int main(int argc, char** argv)
             }
         }
         // UPDATE
+        
+        //mise a jour des textes
+        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent()));
+        compteurPv.setString("PV : " + std::to_string(oBase.printPv()));
+        compteurVague.setString("Vague : " + std::to_string(countVague));
+
 
         for (int i = 0; i < oEnnemis.size(); i++)
         {
@@ -228,10 +217,7 @@ int main(int argc, char** argv)
                         {
                             window.clear();
 
-                            texteWin.setString("Bravo, tu as gagné !");
-                            texteWin.setPosition(400.0f, 300.0f);
-
-                            window.draw(texteWin);
+                            texteWin.drawText(window);
 
                             sf::sleep(sf::seconds(5));
                             return 0;
@@ -296,26 +282,10 @@ int main(int argc, char** argv)
         }
 
 
-        //mis a jour du compteur d'argent 
-        compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent()));
-
-        float argOffsetX = 10.0f;  // Marge à partir du X
-        compteurArgent.setPosition(window.getSize().x - compteurArgent.getLocalBounds().width - argOffsetX, 0);
-
-
-        //mis a jour du compteur de PV
-        compteurPv.setString("PV : " + std::to_string(oBase.printPv()));
-
-        float pvOffsetX = 50.0f;  // Marge à partir du X
-        float pvOffsetY = 45.0f;  // Marge à partir du Y
-        compteurPv.setPosition(oBase.getPosition().x - pvOffsetX, oBase.getPosition().y + pvOffsetY);
-
-        //mis a jour du compteur de vague 
-        compteurVague.setString("Vague : " + std::to_string(countVague));
-        compteurVague.setPosition(0, 0);
-
         // DRAW
         window.clear();
+        
+        iBackground.drawImage(window);
 
         for (int l = 0; l < oEnnemis.size(); l++)
         {
@@ -334,22 +304,20 @@ int main(int argc, char** argv)
             oTourelles[m].drawRect(window);
         }
 
-        window.draw(compteurArgent);
-        window.draw(compteurPv);
-        window.draw(compteurVague);
-
+        
+        compteurArgent.drawText(window);
+        compteurPv.drawText(window);
+        compteurVague.drawText(window);
+        
+        
         window.display();
 
         deltaTime = oClock.restart().asSeconds();
-
     }
 
     window.clear();
 
-    texteLoose.setString("dommage, tu as perdu !");
-    texteLoose.setPosition(400.0f, 300.0f);
-
-    window.draw(texteLoose);
+    texteLoose.drawText(window);
 
     sf::sleep(sf::seconds(5));
 

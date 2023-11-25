@@ -7,7 +7,6 @@ private:
 	int vie;
 	int argent;
 
-
 public:
 	Base(float x, float y, float width, float height, sf::Color couleur); //constructeur
 	~Base();// Destructeur

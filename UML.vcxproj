@@ -133,8 +133,10 @@
     <ClCompile Include="Base.cpp" />
     <ClCompile Include="Ennemi.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Munition.cpp" />
+    <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="TourArcher.cpp" />
     <ClCompile Include="Tourelle.cpp" />
     <ClCompile Include="TourGel.cpp" />
@@ -144,7 +146,9 @@
     <ClInclude Include="Base.h" />
     <ClInclude Include="Ennemi.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Munition.h" />
+    <ClInclude Include="TextManager.h" />
     <ClInclude Include="TourArcher.h" />
     <ClInclude Include="Tourelle.h" />
     <ClInclude Include="TourGel.h" />
