@@ -9,6 +9,9 @@
 #include "Tourelle.h"
 #include "ImageManager.h"
 #include "TextManager.h"
+#include "TourArcher.h"
+#include "TourGel.h"
+#include "TourSorcier.h"
 
 
 int main(int argc, char** argv)

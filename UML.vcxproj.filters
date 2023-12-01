@@ -52,10 +52,10 @@
       <Filter>Fichiers sources\Controller</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\View</Filter>
     </ClCompile>
     <ClCompile Include="TextManager.cpp">
-      <Filter>Fichiers sources</Filter>
+      <Filter>Fichiers sources\View</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
