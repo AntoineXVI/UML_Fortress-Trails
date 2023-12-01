@@ -25,34 +25,35 @@ int main(int argc, char** argv)
     //création d'une image de fond
     ImageManager iBackground("IMG/Background.png");
 
+    sf::Clock TimeSpawnEnnemis;
+
     //liste des ennemis
     std::vector <Ennemi> oEnnemis;
 
     //liste des tourelles
     std::vector <Tourelle> oTourelles;
 
-    Tourelle tourelle1(200.f, 200.f, 50.f, 50.f, sf::Color::Green);
+    Tourelle tourelle1(200.f, 350.f, 50.f, 50.f, sf::Color::Green);
     oTourelles.push_back(tourelle1);
 
     //creation de la base a defendre
-    Base oBase(750.f, 330.f, 100.f, 100.f, sf::Color::Cyan);
+    Base oBase(750.f, 300.f, 100.f, 100.f, sf::Color::Cyan);
 
     //liste des munitions tir�s
     std::vector <Munition> oMunitions;
 
     sf::Clock oClock;
     sf::Clock TimeShoot;
-    sf::Clock TimeSpawnEnnemis;
     float deltaTime = 0;
     int ennemiCount = 0;
     int rngSpawn = 0;
-    int countVague = 1;
     int min = 1;
-    int max = countVague;
+    int max = 2;
+    int countVague = 1;
 
     //création des textes
     TextManager compteurArgent(0.f, 0.f, 50, "Argent : 0"); 
-    compteurArgent.setPosition(window.getSize().x - compteurArgent.getRect().width - 10.0f, 0.f); //changer son X par rapport pour qu'il ne depasse pas de l'ecran
+    compteurArgent.setPosition(window.getSize().x - compteurArgent.getRect().width - 10.0f, 0.f); //changer son X par rapport a sa taille pour qu'il rentre dans l'ecran
     
     TextManager compteurPv(oBase.getPosition().x - 50.0f, oBase.getPosition().y + 45.0f, 30, "PV : 0"); 
 
@@ -70,7 +71,7 @@ int main(int argc, char** argv)
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 3.f)
             {
-                Ennemi ennemi1(0.f, 330.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                 oEnnemis.push_back(ennemi1);
 
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
@@ -87,12 +88,12 @@ int main(int argc, char** argv)
                 rngSpawn = rand() % (max - min + 1) + min;
                 if (rngSpawn == 2)
                 {
-                    Ennemi ennemi2(0.f, 330.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
+                    Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
                     oEnnemis.push_back(ennemi2);
                 }
                 else if (rngSpawn == 1)
                 {
-                    Ennemi ennemi1(0.f, 330.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                    Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                     oEnnemis.push_back(ennemi1);
                 }
 
@@ -103,24 +104,26 @@ int main(int argc, char** argv)
         }
         else if (ennemiCount >= 20 && ennemiCount < 35) //vague 3
         {
+            int max = 3;
             countVague = 3;
+
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 2.f)
             {
                 rngSpawn = rand() % (max - min + 1) + min;
                 if (rngSpawn == 3)
                 {
-                    Ennemi ennemi3(0.f, 330.f, 50.f, 50.f, sf::Color::Yellow, 15, 5);
+                    Ennemi ennemi3(0.f, 300.f, 50.f, 50.f, sf::Color::Yellow, 15, 5);
                     oEnnemis.push_back(ennemi3);
                 }
                 else if (rngSpawn == 2)
                 {
-                    Ennemi ennemi2(0.f, 330.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
+                    Ennemi ennemi2(0.f, 300.f, 50.f, 50.f, sf::Color::Magenta, 7, 3);
                     oEnnemis.push_back(ennemi2);
                 }
                 else if (rngSpawn == 1)
                 {
-                    Ennemi ennemi1(0.f, 330.f, 50.f, 50.f, sf::Color::Red, 5, 1);
+                    Ennemi ennemi1(0.f, 300.f, 50.f, 50.f, sf::Color::Red, 5, 1);
                     oEnnemis.push_back(ennemi1);
                 }
 
@@ -135,7 +138,7 @@ int main(int argc, char** argv)
             // Vérifier si le temps de spawn est écoulé
             if (TimeSpawnEnnemis.getElapsedTime().asSeconds() > 8.f)
             {
-                Ennemi boss(0.f, 330.f, 70.f, 70.f, sf::Color::Red, 50, 20);
+                Ennemi boss(0.f, 300.f, 70.f, 70.f, sf::Color::Red, 50, 20);
                 oEnnemis.push_back(boss);
 
                 // Redémarrer le chronomètre après avoir fait spawn un ennemi
@@ -167,7 +170,6 @@ int main(int argc, char** argv)
         
         //mise a jour des textes
         compteurArgent.setString("Argent : " + std::to_string(oBase.printArgent()));
-        compteurArgent.setPosition(window.getSize().x - compteurArgent.getRect().width - 10.0f, 0.f); //changer son X par rapport pour qu'il ne depasse pas de l'ecran
         compteurPv.setString("PV : " + std::to_string(oBase.printPv()));
         compteurVague.setString("Vague : " + std::to_string(countVague));
 
@@ -305,10 +307,12 @@ int main(int argc, char** argv)
         {
             oTourelles[m].drawRect(window);
         }
+
         
         compteurArgent.drawText(window);
         compteurPv.drawText(window);
         compteurVague.drawText(window);
+        
         
         window.display();
 
