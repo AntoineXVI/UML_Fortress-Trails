@@ -5,7 +5,7 @@
 
 TextManager::TextManager(float x, float y, int size, sf::String string)
 {
-	font.loadFromFile("SFML-2.6.1/Fonts/Arial.ttf");
+	font.loadFromFile("../SFML-2.6.1/Fonts/Arial.ttf");
 
 	text.setFont(font);
 
