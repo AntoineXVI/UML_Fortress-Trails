@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 {
     std::srand(static_cast<unsigned int>(std::time(nullptr))); //pour la fonction random
 
+
     //cr�ation de la fenetre
     sf::RenderWindow window(sf::VideoMode(800, 600), "SFML");
 
